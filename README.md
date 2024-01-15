@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: luxin
  * @Date: 2024-01-15 15:34:53
- * @LastEditTime: 2024-01-15 16:11:15
+ * @LastEditTime: 2024-01-15 17:39:57
 -->
 # Dynamic-Imaging
  动态单像素成像代码合集
@@ -12,3 +12,5 @@
     相机采集程序
     转台相机联动程序结合
     SPI+CCD的原理测试代码
+
+2. 修改了GitHubDeskTop对应的名称和对应的邮箱账号
