@@ -1,0 +1,6 @@
+2022-12-3,14:41:19
+Device 1:bind error,Errornum: 10049
+2022-12-3,14:41:51
+Device 1:bind error,Errornum: 10049
+2022-12-3,14:44:17
+Device 1:bind error,Errornum: 10049
