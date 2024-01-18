@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: luxin
  * @Date: 2024-01-15 15:34:53
- * @LastEditTime: 2024-01-15 17:39:57
+ * @LastEditTime: 2024-01-18 22:32:32
 -->
 # Dynamic-Imaging
  动态单像素成像代码合集
@@ -14,3 +14,4 @@
     SPI+CCD的原理测试代码
 
 2. 修改了GitHubDeskTop对应的名称和对应的邮箱账号
+3. 2024/1/18 - 开始查找可能的硬件触发的方式
