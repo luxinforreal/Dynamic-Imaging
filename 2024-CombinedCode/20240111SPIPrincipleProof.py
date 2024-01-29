@@ -5,7 +5,7 @@ Descripttion:
 version: 1.0
 Author: luxin
 Date: 2024-01-09 15:00:32
-LastEditTime: 2024-01-29 12:32:04
+LastEditTime: 2024-01-29 16:27:58
 Steps:
     1. 原始代码将转台的位置转到合适位置
     2. 用一个成像物体的片作为目标
@@ -79,6 +79,8 @@ def TriggerFunction():
     
 def acq_mono(device, num):
     global image_lsit
+    illumination_time = 1000000
+    picture_time = 500000
     image_list = []
     path = 'D:/Ghost Imaing Program/python/DMD_Control'
     os.chdir(path)
@@ -89,7 +91,7 @@ def acq_mono(device, num):
     imgBlack = np.zeros([DMD.nSizeY, DMD.nSizeX])
     DMD.SeqAlloc(nbImg=size, bitDepth=bitDepth)
     DMD.SeqPut(imgData=arr)  
-    DMD.SetTiming(illuminationTime=1000000, pictureTime=1000000)
+    DMD.SetTiming(illuminationTime=illumination_time, pictureTime=picture_time)
     # define the illuminationTime less than pictureTime(half would be better)
     # 25000 equal to 0.025 second (in 1 second 40 pictures can be printed) X
     # 50000 equal to 0.05 second (in 1 second 20 pictures can be printed) X
