@@ -1,21 +1,17 @@
 '''
 Descripttion: 
-    1. SPI_CCD pricinple proof
-    2. Single CCD and DMD whitout turnable machine
+    1. 添加再循环里面每次加载一张图片播放的DMD投影方式
 version: 1.0
 Author: luxin
 Date: 2024-01-09 15:00:32
-LastEditTime: 2024-01-29 16:45:09
+LastEditTime: 2024-01-29 17:58:16
 Steps:
-    1. 原始代码将转台的位置转到合适位置
-    2. 用一个成像物体的片作为目标
-    3. 先检测裁剪代码的代码有没有什么问题
-    4. DMD运行进行同步的内容获取 
-    5. image process先处理获取的数据的裁剪/计算裁剪过后的intensity
-# NOTE: 单次软触发采集,没有恒定设计相机按照某个帧率进行采集
-# NOTE: 创建一个采用恒定帧率进行采集的代码,防止相机需要初始化的情况
-# NOTE: DMD.Run()和循环采集的先后关系存在问题,创建在每次循环之后在DMD内部队列加载一张图片的方式进行成像
-# NOTE: 新的DMD的操作,以及如何创建硬件触发功能的demo展示
+    1. 在循环当中有num也就是size控制循环的次数,每次都可以获取num的具体取值
+    2. 然后每次都固定加载这一张图片到DMD中,然后进行投影,把加载图片的代码放到采集的代码中去
+Experiment:
+    1. 先使用1Hz采集速率, 图像镜像翻转计算一下得到的结果如何
+    2. 再使用2024PrincipleProof_looping里面的代码跑一下结果
+    3. 再看一下两个产品的相关参考书,尝试用硬件触发的方式进行代码重组
 '''
 
 import os
@@ -31,26 +27,7 @@ import matplotlib.pyplot as plt
 from natsort import natsorted, ns
 from ALP4 import *
 
-# --------------------load speckle pattern-------------------
 size = 500
-ref_path = "D:/Speckle pattern/RandomField_1280-800/090"
-
-os.chdir(ref_path)
-
-filelist = [f for f in os.listdir(ref_path) if f.endswith('.png')]
-filelist = natsorted(filelist)
-
-img_data = []
-for i in range(size):
-    img = cv2.imread(filelist[i], cv2.IMREAD_GRAYSCALE)
-    img_data.append(img)
-img_data = np.asarray(img_data)
-
-arr = []
-for k in range(size):
-    image = img_data[k].flatten()
-    arr.append(image)
-arr = np.asarray(arr)
 
 # -------------------- singal acquisition-------------------
 def TriggerFunction():
@@ -79,6 +56,26 @@ def TriggerFunction():
     
 def acq_mono(device, num):
     global image_lsit
+    
+    ref_path = "D:/Speckle pattern/RandomField_1280-800/090"
+
+    os.chdir(ref_path)
+
+    filelist = [f for f in os.listdir(ref_path) if f.endswith('.png')]
+    filelist = natsorted(filelist)
+    
+    img_data = []
+    for i in range(size):
+        img = cv2.imread(filelist[i], cv2.IMREAD_GRAYSCALE)
+        img_data.append(img)
+    img_data = np.asarray(img_data)
+
+    arr = []
+    for k in range(size):
+        image = img_data[k].flatten()
+        arr.append(image)
+    arr = np.asarray(arr)
+    
     illumination_time = 1000000
     picture_time = 500000
     image_list = []
