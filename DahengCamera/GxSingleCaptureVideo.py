@@ -7,6 +7,7 @@ import pygame
 Author:zhangbo
 Date:2019-11-21
 Discription:Secondary development of pythonsdk of Daheng camera.
+            本项目的内容适用于彩色的视频相机,对于黑白相机无法获取视频流,仅作为
 """
 
 def main():
@@ -28,14 +29,6 @@ def main():
     #创建设备
     device_manager = gx.DeviceManager() # 创建设备对象
     dev_num, dev_info_list = device_manager.update_device_list() #枚举设备，即枚举所有可用的设备
-    if dev_num is 0:
-        print("Number of enumerated devices is 0")
-        return
-    else:
-        print("")
-        print("**********************************************************")
-        print("创建设备成功，设备号为:%d" % dev_num)
-
     #通过设备序列号打开一个设备
     cam = device_manager.open_device_by_sn(dev_info_list[0].get("sn"))
 
@@ -47,7 +40,7 @@ def main():
     else:
         print("")
         print("**********************************************************")
-        print("打开彩色摄像机成功，SN号为：%s" % dev_info_list[0].get("sn"))
+        print("打开彩色摄像机成功,SN号为,%s" % dev_info_list[0].get("sn"))
 
 
     #设置宽和高

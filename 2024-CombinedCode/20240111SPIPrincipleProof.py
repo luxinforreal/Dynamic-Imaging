@@ -5,7 +5,7 @@ Descripttion:
 version: 1.0
 Author: luxin
 Date: 2024-01-09 15:00:32
-LastEditTime: 2024-01-12 12:33:09
+LastEditTime: 2024-01-29 12:28:04
 Steps:
     1. 原始代码将转台的位置转到合适位置
     2. 用一个成像物体的片作为目标
@@ -14,6 +14,7 @@ Steps:
     5. image process先处理获取的数据的裁剪/计算裁剪过后的intensity
 # NOTE: 单次软触发采集,没有恒定设计相机按照某个帧率进行采集
 # NOTE: 创建一个采用恒定帧率进行采集的代码,防止相机需要初始化的情况
+# NOTE: DMD.Run()和循环采集的先后关系存在问题,创建在每次循环之后在DMD内部队列加载一张图片的方式进行成像
 '''
 
 import os
