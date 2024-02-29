@@ -3,7 +3,7 @@ Descripttion: Test SPI Intensity and DGI
 version: 2.3.1
 Author: luxin
 Date: 2024-02-29 10:55:25
-LastEditTime: 2024-02-29 15:20:04
+LastEditTime: 2024-02-29 15:27:10
 '''
 import os
 import cv2
@@ -64,7 +64,7 @@ def load_images_as_array(directory: str, size: int) -> np.ndarray:
 
 # DGI Algorith
 def DGI(data: list, img_data: np.ndarray, size: int) -> None:
-    data = flat_numbers_list
+    data = data
     bucket = data
     ghost = np.zeros((800, 1280))
     bucket_sum = 0
@@ -103,11 +103,12 @@ def DGI(data: list, img_data: np.ndarray, size: int) -> None:
     
 # --- main ---
 def main():
-    directory = "D:/Speckle pattern/030bmp/030bmp/"
     size = 1500
+    intensity_file_path = "C:/Users/luxin/Desktop/Dynamic Imaging/test"
+    speckle_file_path = "D:/Speckle pattern/030bmp/030bmp/"
     
-    img_data = load_images_as_array(directory, size)
-    flat_numbers_list = process_files_in_folder(directory)
+    img_data = load_images_as_array(speckle_file_path, size)
+    flat_numbers_list = process_files_in_folder(intensity_file_path)
     
     if len(flat_numbers_list) == size:
         DGI(flat_numbers_list, img_data, size)
