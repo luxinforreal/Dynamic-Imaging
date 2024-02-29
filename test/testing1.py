@@ -1,9 +1,9 @@
 '''
-Descripttion: testing functions here
+Descripttion: testing acquired blocl algorithm
 version: 1.0
 Author: luxin
 Date: 2023-06-26 16:42:46
-LastEditTime: 2024-01-11 17:23:40
+LastEditTime: 2024-02-29 15:21:58
 '''
 # testing the acquire_block2 function 
 import numpy as np
@@ -19,7 +19,7 @@ from PIL import Image
     5. matplotlib.pyplot.imread(image_path)
     6. matplotlib.image.imread(image_path)
 '''
-image_path = r"C:/Users/luxin/Desktop/Step1Code(1)(3)(1)/image_testing.png"
+image_path = r"C:\\Users\\luxin\\Desktop\\Dynamic Imaging\\test\\image_testing.png"
 img = Image.open(image_path)
 img1 = np.array(img)
 print(img1.shape)

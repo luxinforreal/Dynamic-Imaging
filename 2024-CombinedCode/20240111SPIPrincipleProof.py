@@ -2,10 +2,12 @@
 Descripttion: 
     1. SPI_CCD pricinple proof
     2. Single CCD and DMD whitout turnable machine
-version: 1.0
+version: 2.0
 Author: luxin
-Date: 2024-01-09 15:00:32
-LastEditTime: 2024-01-29 16:27:58
+Date: 2024-01-15 15:33:33
+LastEditTime: 2024-02-29 15:06:28
+'''
+'''
 Steps:
     1. 原始代码将转台的位置转到合适位置
     2. 用一个成像物体的片作为目标
