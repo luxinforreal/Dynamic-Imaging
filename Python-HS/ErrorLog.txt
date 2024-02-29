@@ -6,3 +6,11 @@ Device 1:bind error,Errornum: 10049
 Device 1:bind error,Errornum: 10049
 2024-1-29,10:32:19
 Device 0:Send error,Errornum: 10038
+2024-2-29,21:33:15
+Device 1:bind error,Errornum: 10049
+2024-2-29,21:36:8
+Device 1:bind error,Errornum: 10049
+2024-2-29,21:36:10
+Device 1:bind error,Errornum: 10049
+2024-2-29,21:36:11
+Device 1:bind error,Errornum: 10049

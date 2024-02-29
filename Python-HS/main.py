@@ -1,5 +1,6 @@
 import os
 import sys
+import cv2
 from ctypes import *
 
 import PySide2
@@ -20,7 +21,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # 初始化界面
-        self.lineEdit_ZJ_IP.setText("192.168.1.2")
+        self.lineEdit_ZJ_IP.setText("192.168.1.10")
         self.lineEdit_ZJ_Port.setText("1234")
         self.lineEdit_XWJ_IP.setText("192.168.1.20")
         self.lineEdit_XWJ_Port.setText("1234")
@@ -34,7 +35,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         lib_path = path1 + "\\libFL_DLP_HS.dll"
         self.lib = windll.LoadLibrary(lib_path)
 
-        #   类变量
+        # 类变量
         self.Device_ID = 0
         self.Thread_receive = None
         self.Pic_AddrTwo = None
@@ -136,6 +137,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # 初始化设备UDP
     def on_pushButton_Init_clicked(self):
+        print("初始化设备UDP")
         if self.pushButton_Init.text() == "初始化设备UDP":
             # 获取设备ID
             self.Device_ID = int(self.comboBox_DeviceID.currentText())
@@ -249,13 +251,29 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.User_TextEditShow("发送设置参数成功\n", 0)
 
     # 选择二值图像文件夹
-    def on_pushButton_ChooseTwoPic_clicked(self):
-        selectDir = QFileDialog.getExistingDirectory(self, "选择二值图片传输文件夹", "C:/")
-        self.Pic_AddrTwo = selectDir
-        dir1 = QDir(selectDir)
+    # def on_pushButton_ChooseTwoPic_clicked(self):
+    #     selectDir = QFileDialog.getExistingDirectory(self, "选择二值图片传输文件夹", "C:/")
+    #     self.Pic_AddrTwo = selectDir
+    #     dir1 = QDir(selectDir)
+    #     filter1 = ['*.bmp']
+    #     fileInfo = dir1.entryInfoList(filter1, QDir.Files | QDir.Readable, QDir.Name)
+    #     self.lineEdit_Picnum_Dir.setText(str(len(fileInfo)))
+    def on_pushButton_ChooseTwoPic_clicked(self, directory_path):
+        dir1 = QDir(directory_path)
         filter1 = ['*.bmp']
         fileInfo = dir1.entryInfoList(filter1, QDir.Files | QDir.Readable, QDir.Name)
-        self.lineEdit_Picnum_Dir.setText(str(len(fileInfo)))
+        bmp_images = []
+        for info in fileInfo:
+            abs_file_path = info.absoluteFilePath()
+            try:
+                img = cv2.imread(abs_file_path, cv2.IMREAD_GRAYSCALE)
+                if img is not None:
+                    bmp_images.append(img)
+            except Exception as e:
+                print(f"无法加载图片文件: {abs_file_path}, 错误原因: {e}")
+        num_of_bmps = len(bmp_images)
+        self.lineEdit_Picnum_Dir.setText(str(num_of_bmps))
+
 
     # 选择灰度文件夹
     def on_pushButton_ChooseEightPic_clicked(self):
