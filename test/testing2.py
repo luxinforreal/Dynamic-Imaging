@@ -3,7 +3,7 @@ Descripttion: Test SPI Intensity and DGI
 version: 2.3.1
 Author: luxin
 Date: 2024-02-29 10:55:25
-LastEditTime: 2024-02-29 15:27:10
+LastEditTime: 2024-02-29 17:54:55
 '''
 import os
 import cv2
@@ -39,7 +39,7 @@ def load_images_as_array(directory: str, size: int) -> np.ndarray:
     :return: 一个形状为(size, height, width)的numpy数组,其中height和width是图片的高和宽.
     """
     os.chdir(directory)
-    filelist = [f for f in os.listdir(directory) if f.endswith('.png')]
+    filelist = [f for f in os.listdir(directory) if f.endswith('.bmp')]
     filelist = natsorted(filelist)
     filelist = filelist[:size]
 
@@ -100,12 +100,13 @@ def DGI(data: list, img_data: np.ndarray, size: int) -> None:
         if i == size:
             break
     plt.imshow(ghost_final)
+    plt.pause(20)
     
 # --- main ---
 def main():
     size = 1500
-    intensity_file_path = "C:/Users/luxin/Desktop/Dynamic Imaging/test"
-    speckle_file_path = "D:/Speckle pattern/030bmp/030bmp/"
+    intensity_file_path = "C:\\Users\\luxin\\Desktop\\Dynamic Imaging\\test\\test_txt"
+    speckle_file_path = "D:\\Speckle pattern\\bmp\\030"
     
     img_data = load_images_as_array(speckle_file_path, size)
     flat_numbers_list = process_files_in_folder(intensity_file_path)

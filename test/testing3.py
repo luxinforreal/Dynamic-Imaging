@@ -28,7 +28,7 @@ def check_line_count_in_txts(folder_path) -> None:
     
 # --- main ---
 def main():
-    folder_path = 'test_folder_path'
+    folder_path = r'C:\Users\luxin\Desktop\Dynamic Imaging\test\test_txt'
     check_line_count_in_txts(folder_path)
           
 if __name__ == "__main__":
