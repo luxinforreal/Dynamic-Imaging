@@ -20,6 +20,7 @@ from main import qtwindow
 
 play_mode = 1
 folder_path = "D:/speckle pattern/bmp/064"
+folder_path = "D:/speckle pattern/RandomFiled1289x800/bmp/064"
 
 # initial app instance
 app = QtWidgets.QApplication(sys.argv)
@@ -62,6 +63,8 @@ window.on_pushButton_SendTwo_clicked()
     # Param_PlayPicnum = int(self.lineEdit_PicCount.text())
     Param_StartP = param_startp : 起始播放位置
     Param_PlayPicnum = param_playpicnum : 截止播放位置
+    Param_Rate: 采集帧率
+    Param
 '''
 window.on_pushButton_CMD_Play_clicked(play_mode, 1, 1500)
 window.
