@@ -1,5 +1,5 @@
 '''
-Descripttion: 重写DMD进行SPI代码的实现,调用PyQt
+Description: 重写DMD进行SPI代码的实现,调用PyQt
 version: 1.0
 Author: luxin
 Date: 2024-02-29 21:05:46
