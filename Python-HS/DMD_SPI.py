@@ -3,7 +3,7 @@ Descripttion: 重写DMD进行SPI代码的实现,调用PyQt
 version: 1.0
 Author: luxin
 Date: 2024-02-29 21:05:46
-LastEditTime: 2024-02-29 21:49:29
+LastEditTime: 2024-03-01 11:37:27
 '''
 import os
 import sys 
@@ -16,60 +16,51 @@ from PySide2 import QtWidgets
 from PySide2.QtCore import QDir
 from PySide2.QtGui import QTextCharFormat, QColor, QTextCursor
 from PySide2.QtWidgets import QFileDialog, QTabWidget
-
-from UDPThread import udppthread
-from ui_main import Ui_MainWindow
 from main import qtwindow
 
-folder_path = "D:/speckle pattern/bmp/070"
+play_mode = 1
+folder_path = "D:/speckle pattern/bmp/064"
 
+# initial app instance
 app = QtWidgets.QApplication(sys.argv)
+b = QTabWidget()
 window = qtwindow()
-window.show()
+b.insertTab(0, window, "设备1")
+b.setMinimumSize(1000, 770)
+b.setWindowTitle("Python_FL_DLP_HS_Demo_Updated_LX")
+b.show()
+b.setCurrentIndex(0)
+app.exec_()
 
+# build command sequence - initialize
 window.on_pushButton_Init_clicked()
 window.on_pushButton_CMD_DeviceInfo_clicked()
 window.on_pushButton_CMD_SetParam_clicked()
 window.on_pushButton_ChooseTwoPic_clicked(folder_path)
-# 给出文件夹内的图片数量，发送图片樟树和起始加载位置的设置
+window.on_pushButton_SendTwo_clicked()
 
-
-
-app.exec_()
-
-# def load_bmp_from_directory(self, directory_path):
-#     # 接收预设的文件夹路径
-#     dir1 = QDir(directory_path)
-    
-#     # 设置过滤器，只包含.bmp文件
-#     filter1 = ['*.bmp']
-
-#     # 获取目录下所有满足条件的文件条目信息
-#     fileInfo = dir1.entryInfoList(filter1, QDir.Files | QDir.Readable, QDir.Name)
-
-#     # 初始化一个列表来存储加载的图片数据
-#     bmp_images = []
-
-#     # 遍历文件信息，加载每个.bmp文件
-#     for info in fileInfo:
-#         # 获取绝对文件路径
-#         abs_file_path = info.absoluteFilePath()
-        
-#         # 加载.bmp图片
-#         try:
-#             img = cv2.imread(abs_file_path, cv2.IMREAD_GRAYSCALE)
-#             if img is not None:
-#                 bmp_images.append(img)
-#         except Exception as e:
-#             print(f"无法加载图片文件: {abs_file_path}, 错误原因: {e}")
-
-#     # 对加载成功的图片进行进一步处理...
-#     # （此处省略，根据你的需求进行图片处理或显示等操作）
-
-#     # 显示bmp图片数量（如果需要）
-#     num_of_bmps = len(bmp_images)
-#     self.lineEdit_Picnum_Dir.setText(str(num_of_bmps))
-
-# # 使用示例
-# predefined_directory = "C:/Your_predefined_directory"
-# self.load_bmp_from_directory(predefined_directory)
+# build command sequence - execute
+'''play_mode corresponding options
+    type1 = 0
+    if self.comboBox_CMD_Play.currentText() == "内部单次":
+        type1 = 1
+    elif self.comboBox_CMD_Play.currentText() == "内部循环":
+        type1 = 2
+    elif self.comboBox_CMD_Play.currentText() == "外部单次":
+        type1 = 3
+    elif self.comboBox_CMD_Play.currentText() == "外部循环":
+        type1 = 4
+    elif self.comboBox_CMD_Play.currentText() == "可变序列内部单次":
+        type1 = 14
+    elif self.comboBox_CMD_Play.currentText() == "可变序列内部循环":
+        type1 = 15
+    elif self.comboBox_CMD_Play.currentText() == "可变序列外部单次":
+        type1 = 16
+    elif self.comboBox_CMD_Play.currentText() == "可变序列外部循环":
+        type1 = 17 
+    # Param_StartP = int(self.lineEdit_PlayOffset.text())
+    # Param_PlayPicnum = int(self.lineEdit_PicCount.text())
+    Param_StartP = param_startp : 起始播放位置
+    Param_PlayPicnum = param_playpicnum : 截止播放位置
+'''
+window.on_pushButton_CMD_Play_clicked(play_mode, 1, 1500)

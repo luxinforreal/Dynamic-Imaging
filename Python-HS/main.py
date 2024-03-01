@@ -151,7 +151,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             res = self.lib.FL_DLP_HS_Init(self.Device_ID, ZJ_IP, ZJ_Port, XWJ_IP, XWJ_Port)
             if res != 0:
-                self.User_TextEditShow("设备UDP初始化失败，失败代码：" + str(res) + "\n", 1)
+                self.User_TextEditShow("设备UDP初始化失败,失败代码:" + str(res) + "\n", 1)
 
             else:
                 self.User_TextEditShow("设备UDP初始化成功\n", 0)
@@ -259,7 +259,10 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #     fileInfo = dir1.entryInfoList(filter1, QDir.Files | QDir.Readable, QDir.Name)
     #     self.lineEdit_Picnum_Dir.setText(str(len(fileInfo)))
     def on_pushButton_ChooseTwoPic_clicked(self, directory_path):
-        dir1 = QDir(directory_path)
+        print("二值文件夹路径：", directory_path)
+        selectDir = directory_path
+        self.Pic_AddrTwo = selectDir
+        dir1 = QDir(selectDir)
         filter1 = ['*.bmp']
         fileInfo = dir1.entryInfoList(filter1, QDir.Files | QDir.Readable, QDir.Name)
         bmp_images = []
@@ -402,27 +405,32 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.User_TextEditShow("发送设置序列成功\n", 0)
 
     # 播放
-    def on_pushButton_CMD_Play_clicked(self):
-        type1 = 0
-        if self.comboBox_CMD_Play.currentText() == "内部单次":
-            type1 = 1
-        elif self.comboBox_CMD_Play.currentText() == "内部循环":
-            type1 = 2
-        elif self.comboBox_CMD_Play.currentText() == "外部单次":
-            type1 = 3
-        elif self.comboBox_CMD_Play.currentText() == "外部循环":
-            type1 = 4
-        elif self.comboBox_CMD_Play.currentText() == "可变序列内部单次":
-            type1 = 14
-        elif self.comboBox_CMD_Play.currentText() == "可变序列内部循环":
-            type1 = 15
-        elif self.comboBox_CMD_Play.currentText() == "可变序列外部单次":
-            type1 = 16
-        elif self.comboBox_CMD_Play.currentText() == "可变序列外部循环":
-            type1 = 17
-
-        Param_StartP = int(self.lineEdit_PlayOffset.text())
-        Param_PlayPicnum = int(self.lineEdit_PicCount.text())
+    def on_pushButton_CMD_Play_clicked(self, play_mode: int, param_startp: int, param_playpicnum: int):
+        # type1 = 0
+        # if self.comboBox_CMD_Play.currentText() == "内部单次":
+        #     type1 = 1
+        # elif self.comboBox_CMD_Play.currentText() == "内部循环":
+        #     type1 = 2
+        # elif self.comboBox_CMD_Play.currentText() == "外部单次":
+        #     type1 = 3
+        # elif self.comboBox_CMD_Play.currentText() == "外部循环":
+        #     type1 = 4
+        # elif self.comboBox_CMD_Play.currentText() == "可变序列内部单次":
+        #     type1 = 14
+        # elif self.comboBox_CMD_Play.currentText() == "可变序列内部循环":
+        #     type1 = 15
+        # elif self.comboBox_CMD_Play.currentText() == "可变序列外部单次":
+        #     type1 = 16
+        # elif self.comboBox_CMD_Play.currentText() == "可变序列外部循环":
+        #     type1 = 17
+        
+        # 设置默认播放模模式为 - "内部单次"
+        type1 = play_mode
+        
+        # Param_StartP = int(self.lineEdit_PlayOffset.text())
+        # Param_PlayPicnum = int(self.lineEdit_PicCount.text())
+        Param_StartP = param_startp
+        Param_PlayPicnum = param_playpicnum
 
         res = self.lib.FL_DLP_HS_Send_CMD_Play(self.Device_ID, type1, Param_StartP, Param_PlayPicnum)
         if res != 0:
@@ -507,8 +515,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.User_TextEditShow("发送自定义命令成功\n", 0)
 
-
-if __name__ == '__main__':
+def main():
     app = QtWidgets.QApplication(sys.argv)
     b = QTabWidget()
 
@@ -536,3 +543,35 @@ if __name__ == '__main__':
 
     # 退出程序
     app.exec_()
+
+    
+
+if __name__ == '__main__':
+    main()
+    # app = QtWidgets.QApplication(sys.argv)
+    # b = QTabWidget()
+
+    # w0 = qtwindow()
+    # w1 = qtwindow()
+    # w2 = qtwindow()
+    # w3 = qtwindow()
+    # w4 = qtwindow()
+
+    # b.insertTab(0, w0, "设备1")
+    # b.insertTab(1, w1, "设备2")
+    # b.insertTab(2, w2, "设备3")
+    # b.insertTab(3, w3, "设备4")
+    # b.insertTab(4, w4, "设备5")
+
+    # b.setMinimumSize(1000, 770)
+    # b.setWindowTitle("Python_FL_DLP_HS_Demo")
+    # b.show()
+    # b.setCurrentIndex(0)
+    # b.setCurrentIndex(1)
+    # b.setCurrentIndex(2)
+    # b.setCurrentIndex(3)
+    # b.setCurrentIndex(4)
+    # b.setCurrentIndex(0)
+
+    # # 退出程序
+    # app.exec_()
