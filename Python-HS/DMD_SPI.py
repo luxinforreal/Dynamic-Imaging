@@ -1,5 +1,5 @@
 '''
-Description: 重写DMD进行SPI代码的实现,调用PyQt
+Description: 重写DMD进行SPI代码的实现,调用PyQt界面程序
 version: 1.0
 Author: luxin
 Date: 2024-02-29 21:05:46
@@ -64,3 +64,6 @@ window.on_pushButton_SendTwo_clicked()
     Param_PlayPicnum = param_playpicnum : 截止播放位置
 '''
 window.on_pushButton_CMD_Play_clicked(play_mode, 1, 1500)
+window.
+
+# build command sequence - release source

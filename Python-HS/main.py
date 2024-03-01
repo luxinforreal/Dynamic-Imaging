@@ -277,7 +277,6 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         num_of_bmps = len(bmp_images)
         self.lineEdit_Picnum_Dir.setText(str(num_of_bmps))
 
-
     # 选择灰度文件夹
     def on_pushButton_ChooseEightPic_clicked(self):
         selectDir = QFileDialog.getExistingDirectory(self, "选择灰度图片传输文件夹", "C:/")
