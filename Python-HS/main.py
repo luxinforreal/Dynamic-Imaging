@@ -1,18 +1,23 @@
 import os
 import sys
-import cv2
 from ctypes import *
+from scipy import io
 
 import PySide2
 from PySide2 import QtWidgets
 from PySide2.QtCore import QDir
 from PySide2.QtGui import QTextCharFormat, QColor, QTextCursor
 from PySide2.QtWidgets import QFileDialog, QTabWidget
-
+# from daqmx import NIDAQmxInstrument, AnalogInput
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
 # UDP接收线程
 from UDPThread import udppthread
 # UI界面
 from ui_main import Ui_MainWindow
+from natsort import natsorted
+
 
 
 class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -404,7 +409,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.User_TextEditShow("发送设置序列成功\n", 0)
 
     # 播放
-    def on_pushButton_CMD_Play_clicked(self, play_mode: int, param_startp: int, param_playpicnum: int):
+    def on_pushButton_CMD_Play_clicked(self, Param_Mode: int, Param_StartP: int, Param_PlayPicnum: int, Param_Rate: int, Param_Path, Save_Path):
         # type1 = 0
         # if self.comboBox_CMD_Play.currentText() == "内部单次":
         #     type1 = 1
@@ -424,18 +429,83 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #     type1 = 17
         
         # 设置默认播放模模式为 - "内部单次"
-        type1 = play_mode
+        type1 = Param_Mode
         
         # Param_StartP = int(self.lineEdit_PlayOffset.text())
         # Param_PlayPicnum = int(self.lineEdit_PicCount.text())
-        Param_StartP = param_startp
-        Param_PlayPicnum = param_playpicnum
-
+        
         res = self.lib.FL_DLP_HS_Send_CMD_Play(self.Device_ID, type1, Param_StartP, Param_PlayPicnum)
         if res != 0:
             self.User_TextEditShow("发送播放命令失败，失败代码：" + str(res) + "\n", 1)
         else:
             self.User_TextEditShow("发送播放命令成功\n", 0)
+            
+        # daq = NIDAQmxInstrument()
+        values = daq.ai0.capture(
+            sample_count=1500, rate=Param_Rate,
+            max_voltage=10.0, min_voltage=0,
+            # mode='differential',
+            timeout=(Param_PlayPicnum/Param_Rate)  # 75@1500 100@2000
+        )
+        os.chdir(Param_Path)
+        try:
+            if not os.path.exists(Param_Path):
+                raise FileNotFoundError(f"The path '{Param_Path}' does not exist.")
+    
+            # List the .bmp files
+            filelist = [f for f in os.listdir(Param_Path) if f.endswith('.bmp')]
+            filelist = natsorted(filelist)
+            img_data = []
+            size = min(1500, len(filelist)) 
+            for i in range(size):
+                img = cv2.imread(os.path.join(Param_Path, filelist[i]), cv2.IMREAD_GRAYSCALE)
+                img_data.append(img)
+
+            img_data = np.asarray(img_data)
+
+        except FileNotFoundError as fnfe:
+            print(fnfe)
+        else:
+            pass
+        
+        data = values
+        bucket = data
+        ghost = np.zeros((800, 1280))
+        bucket_sum = 0
+        sum_field = ghost + 0.00001
+        corr_sum = ghost
+        number_sum = 0
+        ghost_sum = ghost
+        number_sum = 0
+        plt.ion()
+        for i in range(np.size(data)):
+
+            image = img_data[i]
+            img = image.astype('float64')
+            sum_field = sum_field + img
+            number = np.sum(img)
+            number_sum = number + number_sum
+            mean_number = number_sum / (i + 1)
+
+            print(i)
+            print(values[i])
+            # Differential GI
+            mean_field = sum_field / (i + 1)
+            bucketDebug = bucket[i]
+            # bucketDebug = bucketDebug[0]
+            bucket_sum = bucket_sum + bucketDebug
+            mean_bucket = bucket_sum / (i + 1)
+            ghost_sum = ghost_sum + (((img / mean_field) - 1) * (bucketDebug - (mean_bucket * number / mean_number)))
+            # isnan = np.isnan(ghost_sum)
+            # print(True in isnan)
+
+            ghost_final = ghost_sum / (i + 1)
+
+            if i == size:
+                break
+
+        plt.imshow(ghost_final)
+        np.save(Save_Path, values)
 
     # 暂停
     def on_pushButton_CMD_PlayStop_clicked(self):
