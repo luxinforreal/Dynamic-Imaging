@@ -3,7 +3,7 @@ Description: 重写DMD进行SPI代码的实现,调用PyQt界面程序
 version: 2.0
 Author: luxin
 Date: 2024-02-29 21:05:46
-LastEditTime: 2024-03-02 14:31:42
+LastEditTime: 2024-03-02 16:43:40
 '''
 import os
 import sys 
@@ -20,6 +20,7 @@ from PySide2.QtGui import QTextCharFormat, QColor, QTextCursor
 from main import qtwindow
 
 play_mode = 1
+param_rate = 20
 folder_path = "D:/speckle pattern/bmp/064"
 # folder_path = "D:/speckle pattern/RandomFiled1280x800/bmp/064"
 save_path = "C:/Polarization experimental data/target/wave plate/angle/speckle"
@@ -39,7 +40,7 @@ app.exec_()
 window.on_pushButton_Init_clicked()
 window.on_pushButton_CMD_DeviceInfo_clicked()
 window.on_pushButton_CMD_CX_clicked()
-window.on_pushButton_CMD_SetParam_clicked()
+window.on_pushButton_CMD_SetParam_clicked(param_rate)
 window.on_pushButton_ChooseTwoPic_clicked(folder_path)
 window.on_pushButton_SendTwo_clicked()
 
@@ -70,6 +71,6 @@ window.on_pushButton_SendTwo_clicked()
     Param_Rate: 采集帧率
     Param_Path: 散斑路径
 '''
-window.on_pushButton_CMD_Play_clicked(play_mode, 1, 1500, 20, folder_path, save_path)
+window.on_pushButton_CMD_Play_clicked(play_mode, 1, 1500, param_rate, folder_path, save_path)
 
 # build command sequence - release source

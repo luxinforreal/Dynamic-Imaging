@@ -30,7 +30,7 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.lineEdit_ZJ_Port.setText("1234")
         self.lineEdit_XWJ_IP.setText("192.168.1.20")
         self.lineEdit_XWJ_Port.setText("1234")
-        self.lineEdit_Param_Delay.setText("1")
+        self.lineEdit_Param_Delay.setText("20")
         self.lineEdit_Param_Gray.setText("1")
         self.lineEdit_Param_CFPicnum.setText("1")
         self.lineEdit_Param_CFDelay.setText("0")
@@ -227,8 +227,8 @@ class qtwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.textEdit_FeedBack.clear()
 
     # 设置参数
-    def on_pushButton_CMD_SetParam_clicked(self):
-        Param_Delay = int(self.lineEdit_Param_Delay.text())
+    def on_pushButton_CMD_SetParam_clicked(self, param_delay):
+        Param_Delay = param_delay
 
         # 反极性
         Param_Inverse = 0
