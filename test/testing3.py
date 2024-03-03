@@ -3,7 +3,7 @@ Descripttion: 快速检测文件夹中的光强数据是否为1500次采集
 version: 1.0.0
 Author: luxin
 Date: 2024-02-29 10:55:25
-LastEditTime: 2024-02-29 16:48:26
+LastEditTime: 2024-03-03 21:22:22
 '''
 import os
 import glob
@@ -28,7 +28,7 @@ def check_line_count_in_txts(folder_path) -> None:
     
 # --- main ---
 def main():
-    folder_path = r'C:\Users\luxin\Desktop\Dynamic Imaging\test\test_txt'
+    folder_path = 'C:\\Users\\luxin\\Desktop\\Dynamic Imaging\\test\\test_txt'
     check_line_count_in_txts(folder_path)
           
 if __name__ == "__main__":
